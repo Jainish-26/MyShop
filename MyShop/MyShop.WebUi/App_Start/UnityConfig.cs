@@ -2,6 +2,7 @@ using System;
 using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 using MyShop.DataAccess.InMemory;
+using MyShop.DataAccess.SQL;
 using Unity;
 
 namespace MyShop.WebUi
@@ -44,8 +45,8 @@ namespace MyShop.WebUi
 
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
-            container.RegisterType<IRepository<Product>,InMemoryRepository<Product>>();
-            container.RegisterType<IRepository<ProductCategory>, InMemoryRepository<ProductCategory>>();
+            container.RegisterType<IRepository<Product>,SQLRepositories<Product>>();
+            container.RegisterType<IRepository<ProductCategory>, SQLRepositories<ProductCategory>>();
         }
     }
 }
