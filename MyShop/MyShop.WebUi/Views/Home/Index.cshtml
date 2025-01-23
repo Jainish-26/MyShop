@@ -1,33 +1,55 @@
-﻿@{
+﻿@model IEnumerable<MyShop.Core.Models.Product>
+@{
     ViewBag.Title = "Home Page";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+<h1>Products</h1>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
-    </div>
-</main>
+<!-- Product Grid -->
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <!-- Product Card -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="product-card" style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; padding: 15px; margin-bottom: 30px;">
+
+                <!-- Product Image -->
+                <div class="product-image" style="text-align: center; margin-bottom: 15px;">
+                    <img class="img-fluid" style="height: 250px; object-fit: cover;" src="~/Content/ProductImages/@item.Image" alt="@item.Name" />
+                </div>
+
+                <!-- Product Name & Link -->
+                <div class="product-name" style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 10px;">
+                    @Html.ActionLink(item.Name, "Details", new { id = item.Id })
+                </div>
+
+                <!-- Product Description -->
+                <div class="product-description" style="text-align: center; font-size: 14px; color: #666; margin-bottom: 10px;">
+                    <p>@item.Description</p>
+                </div>
+
+                <!-- Product Price -->
+                <div class="product-price" style="text-align: center; font-size: 18px; color: #333; margin-bottom: 15px;">
+                    <h4>@item.Price</h4>
+                </div>
+
+                <!-- Add to Basket Button -->
+                <div class="add-to-basket" style="text-align: center;">
+                    <a href="#" class="btn btn-primary">Add To Basket</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Optional: Adjust layout for smaller devices -->
+<style>
+    .product-card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+</style>
