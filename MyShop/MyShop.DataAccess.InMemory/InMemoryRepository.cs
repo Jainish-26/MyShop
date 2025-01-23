@@ -5,13 +5,14 @@ using System.Runtime.Caching;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 
 namespace MyShop.DataAccess.InMemory
 {
-    public class InMemoryRepository<T> where T : BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
-        ObjectCache cache =  MemoryCache.Default;
+        ObjectCache cache = MemoryCache.Default;
         List<T> items;
         string className;
 
@@ -20,10 +21,10 @@ namespace MyShop.DataAccess.InMemory
             className = typeof(T).Name;
             items = cache[className] as List<T>;
 
-            if(items == null)
+            if (items == null)
             {
                 items = new List<T>();
-            } 
+            }
         }
 
         public void Commit()
@@ -31,8 +32,9 @@ namespace MyShop.DataAccess.InMemory
             cache[className] = items;
         }
 
-        public void Insert(T t) { 
-        
+        public void Insert(T t)
+        {
+
             items.Add(t);
         }
 
@@ -54,7 +56,7 @@ namespace MyShop.DataAccess.InMemory
         {
             T t = items.Find(i => i.Id == Id);
 
-            if(t != null)
+            if (t != null)
             {
                 return t;
             }
@@ -66,14 +68,15 @@ namespace MyShop.DataAccess.InMemory
 
         public IQueryable<T> Collection()
         {
-           return items.AsQueryable();
+            return items.AsQueryable();
         }
 
-        public void Delete(string Id) { 
-        
-            T tToDelete = items.Find(i=>i.Id == Id);
+        public void Delete(string Id)
+        {
 
-            if(tToDelete != null)
+            T tToDelete = items.Find(i => i.Id == Id);
+
+            if (tToDelete != null)
             {
                 items.Remove(tToDelete);
             }
