@@ -1,55 +1,58 @@
-﻿@model IEnumerable<MyShop.Core.Models.Product>
+﻿@model MyShop.Core.ViewModels.ProductListViewModel
 @{
     ViewBag.Title = "Home Page";
 }
 
 <h1>Products</h1>
 
-<!-- Product Grid -->
 <div class="row">
-    @foreach (var item in Model)
-    {
-        <!-- Product Card -->
-        <div class="col-md-4 col-sm-6 col-xs-12">
-            <div class="product-card" style="border: 1px solid #ddd; border-radius: 8px; overflow: hidden; padding: 15px; margin-bottom: 30px;">
+    <!-- Filter Sidebar -->
+    <div class="col-md-3 col-lg-2">
+        <h4>Filter By Category</h4>
+        <div class="card mb-4">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <!-- All Products Link -->
+                    <li class="list-group-item @(Request["Category"] == null ? "active" : "No Data")">
+                        @Html.ActionLink("All", "Index", null, new { @class = "text-decoration-none" })
+                    </li>
 
-                <!-- Product Image -->
-                <div class="product-image" style="text-align: center; margin-bottom: 15px;">
-                    <img class="img-fluid" style="height: 250px; object-fit: cover;" src="~/Content/ProductImages/@item.Image" alt="@item.Name" />
-                </div>
-
-                <!-- Product Name & Link -->
-                <div class="product-name" style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 10px;">
-                    @Html.ActionLink(item.Name, "Details", new { id = item.Id })
-                </div>
-
-                <!-- Product Description -->
-                <div class="product-description" style="text-align: center; font-size: 14px; color: #666; margin-bottom: 10px;">
-                    <p>@item.Description</p>
-                </div>
-
-                <!-- Product Price -->
-                <div class="product-price" style="text-align: center; font-size: 18px; color: #333; margin-bottom: 15px;">
-                    <h4>@item.Price</h4>
-                </div>
-
-                <!-- Add to Basket Button -->
-                <div class="add-to-basket" style="text-align: center;">
-                    <a href="#" class="btn btn-primary">Add To Basket</a>
-                </div>
+                    <!-- Category Filters -->
+                    @foreach (var cat in Model.ProductCategories)
+                    {
+                        <li class="list-group-item @(Request["Category"] == cat.Category ? "active" : "No Data")">
+                            @Html.ActionLink(cat.Category, "Index", new { Category = cat.Category }, new { @class = "text-decoration-none" })
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
-    }
+
+        <!-- Clear Filter Button -->
+        <div class="text-center">
+            @Html.ActionLink("Clear Filter", "Index", null, new { @class = "btn btn-outline-danger btn-sm" })
+        </div>
+    </div>
+
+    <!-- Products Display Area -->
+    <div class="col-md-9 col-lg-10">
+        <div class="row">
+            @foreach (var item in Model.Products)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card" style="height: 100%">
+                        <img class="card-img-top" src="~/Content/ProductImages/@item.Image" alt="@item.Name" style="height: 250px; object-fit: cover;" />
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                @Html.ActionLink(item.Name, "Details", new { id = item.Id })
+                            </h5>
+                            <p class="card-text">@item.Description</p>
+                            <h4>@item.Price</h4>
+                            <a href="#" class="btn btn-primary">Add To Basket</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
-
-<!-- Optional: Adjust layout for smaller devices -->
-<style>
-    .product-card {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-        }
-</style>

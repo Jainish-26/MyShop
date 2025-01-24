@@ -32,7 +32,7 @@ namespace MyShop.WebUi.Controllers
         {
             ProductManagerViewModel viewModel = new ProductManagerViewModel();
 
-            viewModel.Product = new Product();
+            viewModel.Products = new Product();
             viewModel.ProductCategories = productCategories.Collection();
             return View(viewModel); 
         }
@@ -68,7 +68,7 @@ namespace MyShop.WebUi.Controllers
             {
                 ProductManagerViewModel viewModel = new ProductManagerViewModel();
 
-                viewModel.Product = product;
+                viewModel.Products = product;
                 viewModel.ProductCategories = productCategories.Collection();
                 return View(viewModel);
             }
