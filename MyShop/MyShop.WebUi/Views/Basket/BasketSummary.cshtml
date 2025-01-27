@@ -1,0 +1,22 @@
+﻿@model MyShop.Core.ViewModels.BasketSummaryViewModel
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Basket")">
+                    <i class="fas fa-shopping-cart"></i>
+                    @Model.BasketCount items
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Basket")">
+                    <strong>@String.Format("{0:c}", Model.BasketTotal)</strong>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Add FontAwesome for shopping cart icon -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>

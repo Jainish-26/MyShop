@@ -1,0 +1,76 @@
+﻿@model IEnumerable<MyShop.Core.ViewModels.BasketItemViewModel>
+
+@{
+    ViewBag.Title = "Shopping Basket";
+}
+
+<div class="container">
+    <h2 class="text-center my-4">Your Shopping Basket</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Table Section -->
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Line Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img style="height: 70px; width: 70px; object-fit: cover;" src="~/Content/ProductImages/@item.Image" alt="@item.Productname" />
+                                <span class="d-block mt-2">@Html.DisplayFor(modelItem => item.Productname)</span>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @String.Format("{0:c}", item.Price)
+                            </td>
+                            <td>
+                                @String.Format("{0:c}", item.Price * item.Quantity)
+                            </td>
+                            <td>
+                                <a href="@Url.Action("RemoveFromBasket", "Basket", new { Id = item.Id })" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Remove
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" class="text-right font-weight-bold" style="font-size: 1.2em;">
+                            Total Basket Price
+                        </td>
+                        <td class="font-weight-bold" style="font-size: 1.4em;">
+                            @String.Format("{0:c}", (from p in Model select p.Price * p.Quantity).Sum())
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Action Buttons Section -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-5 text-center mb-3">
+            <a href="@Url.Action("Index","Home")" class="btn btn-outline-primary btn-block">
+                <i class="fas fa-arrow-left"></i> Continue Shopping
+            </a>
+        </div>
+        <div class="col-md-5 text-center">
+            <a href="@Url.Action("Checkout", "Basket")" class="btn btn-success btn-block">
+                <i class="fas fa-check-circle"></i> Proceed to Checkout
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Add FontAwesome for Trash Icon and other icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
