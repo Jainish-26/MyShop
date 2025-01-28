@@ -82,7 +82,6 @@ namespace MyShop.Services
                     ProductId = productId,
                     Quantity = 1,
                 };
-
                 basket.BasketItems.Add(item);
             }
             else

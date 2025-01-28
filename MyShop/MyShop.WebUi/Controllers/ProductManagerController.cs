@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI;
 using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 using MyShop.Core.ViewModels;
-using MyShop.DataAccess.InMemory;
+
 
 namespace MyShop.WebUi.Controllers
 {
@@ -75,8 +73,8 @@ namespace MyShop.WebUi.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Product product, string Id, HttpPostedFileBase file) { 
-            
+        public ActionResult Edit(Product product, string Id, HttpPostedFileBase file)
+        { 
             Product productToEdit = context.Find(Id);
             if (productToEdit == null)
             {
