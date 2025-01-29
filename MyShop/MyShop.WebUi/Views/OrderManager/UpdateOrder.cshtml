@@ -1,0 +1,170 @@
+﻿@model MyShop.Core.Models.Order
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <style>
+        <style>
+    /* Custom styles for the form */
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: bold;
+        color: #343a40;
+        margin-bottom: 2rem;
+    }
+
+    label {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .btn-lg {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    /* Grid Layout for Details and Partial View */
+    .row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    /* Order Details Section */
+    .order-details {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        width: 48%;
+        background-color: #f8f9fa;
+    }
+
+    /* Partial View Section */
+    .partial-view {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        width: 48%;
+        background-color: #f8f9fa;
+        height: 100%; /* Ensures the partial view takes up all available vertical space */
+    }
+
+    /* Ensure the partial view background grows with content */
+    .partial-view h3 {
+        margin-top: 0;
+        padding-bottom: 15px;
+    }
+
+    /* Form Group Styles */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group .col-md-10 {
+        padding-left: 0;
+    }
+
+    /* Table Styles */
+    .table th {
+        text-align: center;
+        background-color: #f8f9fa;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    /* Button styles */
+    .btn-outline-secondary {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+
+    </style>
+
+    <div class="container mt-4">
+        <h2>Order Details</h2>
+
+        <!-- Grid Layout for Order Details and Partial View -->
+        <div class="row">
+            <!-- Order Details Section -->
+            <div class="order-details">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Order ID</th>
+                        <td>@Html.DisplayFor(model => model.Id)</td>
+                    </tr>
+                    <tr>
+                        <th>Created At</th>
+                        <td>@Html.DisplayFor(model => model.createdAt)</td>
+                    </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <td>@Html.DisplayFor(model => model.FirstName)</td>
+                    </tr>
+                    <tr>
+                        <th>Last Name</th>
+                        <td>@Html.DisplayFor(model => model.LastName)</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>@Html.DisplayFor(model => model.Email)</td>
+                    </tr>
+                    <tr>
+                        <th>Street</th>
+                        <td>@Html.DisplayFor(model => model.Street)</td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td>@Html.DisplayFor(model => model.City)</td>
+                    </tr>
+                    <tr>
+                        <th>State</th>
+                        <td>@Html.DisplayFor(model => model.State)</td>
+                    </tr>
+                    <tr>
+                        <th>Zip Code</th>
+                        <td>@Html.DisplayFor(model => model.ZipCode)</td>
+                    </tr>
+                    <tr>
+                        <th>Order Status</th>
+                        <td>
+                            @Html.DropDownListFor(model => model.OrderStatus, new SelectList(ViewBag.StatusList), new { @class = "form-control" })
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Partial View Section -->
+            <div class="partial-view">
+                <h3>Order Items</h3>
+                @Html.Partial("OrderItems", Model.OrderItems)
+            </div>
+        </div>
+        <hr>
+        <!-- Save Button -->
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary btn-lg">Save</button>
+        </div>
+
+        <!-- Back to List Link -->
+        <div class="form-group text-center mt-3">
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-secondary" })
+        </div>
+    </div>
+}

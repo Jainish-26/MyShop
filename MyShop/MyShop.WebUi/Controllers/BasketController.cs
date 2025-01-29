@@ -22,7 +22,6 @@ namespace MyShop.WebUi.Controllers
             this.customers = customers;
         }
 
-
         // GET: Basket
         public ActionResult Index()
         {
