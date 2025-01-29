@@ -1,102 +1,219 @@
-﻿@model MyShop.Core.ViewModels.ProductListViewModel
-@{
-    ViewBag.Title = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
 
-<h1>Products</h1>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-<div class="row">
-    <!-- Filter Sidebar -->
-    <div class="col-md-3 col-lg-2">
-        <h4>Filter By Category</h4>
-        <div class="card mb-4">
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .container {
+            padding: 0 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            flex: 1;
+            max-width: 250px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-right: 20px;
+        }
+
+            .sidebar h4 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+
+        .list-group-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+            .list-group-item:hover {
+                background-color: #f8f9fa;
+            }
+
+            .list-group-item.active {
+                background-color: #007bff;
+                color: white;
+            }
+
+        /* Product Grid */
+        .product-grid {
+            flex: 3;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+            .product-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
+
+            .product-card img {
+                width: 100%;
+                height: 250px;
+                object-fit: cover;
+            }
+
+        .product-card-body {
+            padding: 15px;
+        }
+
+            .product-card-body h5 {
+                font-size: 1.25rem;
+                margin-bottom: 10px;
+            }
+
+            .product-card-body p {
+                font-size: 0.95rem;
+                color: #666;
+                margin-bottom: 15px;
+            }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .btn-add-to-basket {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+            .btn-add-to-basket:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Products</h1>
+
+        <div class="row">
+            <!-- Sidebar Filter -->
+            <div class="sidebar">
+                <h4>Filter By Category</h4>
+                <ul class="list-group">
                     <!-- All Products Link -->
-                    <li class="list-group-item @(Request["Category"] == null ? "active" : "No Data")">
-                        @Html.ActionLink("All", "Index", null, new { @class = "text-decoration-none" })
+                    <li class="list-group-item @((Request.QueryString["Category"] == null) ? "active" : "")">
+                        <a href="@Url.Action("Index", "Products")" class="text-decoration-none">All</a>
                     </li>
 
                     <!-- Category Filters -->
                     @foreach (var cat in Model.ProductCategories)
                     {
-                        <li class="list-group-item @(Request["Category"] == cat.Category ? "active" : "No Data")">
-                            @Html.ActionLink(cat.Category, "Index", new { Category = cat.Category }, new { @class = "text-decoration-none" })
+                        <li class="list-group-item @(Request.QueryString["Category"] == cat.Category ? "active" : "")">
+                            <a href="@Url.Action("Index", "", new { Category = cat.Category })" class="text-decoration-none">@cat.Category</a>
                         </li>
                     }
                 </ul>
+                <div class="text-center mt-3">
+                    <a href="@Url.Action("Index", "")" class="btn btn-outline-danger btn-sm">Clear Filter</a>
+                </div>
             </div>
-        </div>
 
-        <!-- Clear Filter Button -->
-        <div class="text-center">
-            @Html.ActionLink("Clear Filter", "Index", null, new { @class = "btn btn-outline-danger btn-sm" })
-        </div>
-    </div>
-
-    <!-- Products Display Area -->
-    <div class="col-md-9 col-lg-10">
-        <div class="row">
-            @foreach (var item in Model.Products)
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="card" style="height: 100%">
-                        <img class="card-img-top" src="~/Content/ProductImages/@item.Image" alt="@item.Name" style="height: 250px; object-fit: cover;" />
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                @Html.ActionLink(item.Name,"Details", new { id = item.Id })
-                            </h5>
-                            <p class="card-text">@item.Description</p>
-                            <h4>@item.Price</h4>
-                            <a href="@Url.Action("AddToBasket","Basket",new { Id=item.Id})" class="btn btn-primary">Add To Basket</a>
+            <!-- Product Grid -->
+            <div class="product-grid">
+                @foreach (var item in Model.Products)
+                {
+                    <div class="product-card">
+                        <img src="~/Content/ProductImages/@item.Image" alt="@item.Name" />
+                        <div class="product-card-body">
+                            <h5><a href="@Url.Action("Details", "Products", new { id = item.Id })" class="text-decoration-none">@item.Name</a></h5>
+                            <p>@item.Description</p>
+                            <div class="product-price">@item.Price.ToString("C")</div>
+                            <a href="@Url.Action("AddToBasket", "Basket", new { Id = item.Id })" class="btn-add-to-basket">Add To Basket</a>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
-</div>
+</body>
+</html>
 
 
 @*@model MyShop.Core.ViewModels.ProductListViewModel
-@{
-    ViewBag.Title = "Home Page";
-}
+    @{
+        ViewBag.Title = "Home Page";
+    }
 
-<h1>Product</h1>
+    <h1>Product</h1>
 
-<div class="col-md-2">
-    <h4>Filter By Category</h4>
-    <div class="list-group">
-        @Html.ActionLink("All", "Index", null, new { @class = Request["Category"] == null ? "list-group-item-active" : " list-group-item" })
-        @foreach (var cat in Model.ProductCategories)
+    <div class="col-md-2">
+        <h4>Filter By Category</h4>
+        <div class="list-group">
+            @Html.ActionLink("All", "Index", null, new { @class = Request["Category"] == null ? "list-group-item-active" : " list-group-item" })
+            @foreach (var cat in Model.ProductCategories)
+            {
+                @Html.ActionLink(cat.Category, "Index", new { Category = cat.Category }, new { @class = Request["Category"] == null ? "list-group-item-active" : " list-group-item" })
+            }
+        </div>
+    </div>
+    <div class="col-md-10">
+
+        @foreach (var item in Model.Products)
         {
-            @Html.ActionLink(cat.Category, "Index", new { Category = cat.Category }, new { @class = Request["Category"] == null ? "list-group-item-active" : " list-group-item" })
+            <div class="col-md-4" style="height:450px;padding:10px;margin:10px;border solid thin whitesmoke">
+                <div class="col-md-12">
+                    <img class="img" style="height:250px" src="~/Content/ProductImages/@item.Image" />
+                </div>
+                <div class="col-md-12">
+                    <strong>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</strong>
+                </div>
+                <div class="col-md-12">
+                    <p>@item.Description</p>
+                </div>
+                <div class="col-md-12">
+                    <h4>@item.Price</h4>
+                </div>
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-default">Add To Basket</a>
+                </div>
+            </div>
         }
     </div>
-</div>
-<div class="col-md-10">
 
-    @foreach (var item in Model.Products)
-    {
-        <div class="col-md-4" style="height:450px;padding:10px;margin:10px;border solid thin whitesmoke">
-            <div class="col-md-12">
-                <img class="img" style="height:250px" src="~/Content/ProductImages/@item.Image" />
-            </div>
-            <div class="col-md-12">
-                <strong>@Html.ActionLink(item.Name, "Details", new { id = item.Id })</strong>
-            </div>
-            <div class="col-md-12">
-                <p>@item.Description</p>
-            </div>
-            <div class="col-md-12">
-                <h4>@item.Price</h4>
-            </div>
-            <div class="col-md-12">
-                <a href="#" class="btn btn-default">Add To Basket</a>
-            </div>
-        </div>
-    }
-</div>
-
-<div class="col-md-12 clearfix">*@
+    <div class="col-md-12 clearfix">*@

@@ -1,0 +1,99 @@
+﻿@model MyShop.Core.Models.Order
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg" style="border-radius: 15px;">
+                    <div class="card-header text-center" style="background-color: #007bff; color: white; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        <h4>Order Information</h4>
+                    </div>
+                    <div class="card-body" style="background-color: #f8f9fa; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <!-- First Name -->
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <!-- Last Name -->
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <!-- Email -->
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <!-- Street Address -->
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Street, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Street, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <!-- City -->
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <!-- State -->
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <!-- Zip Code -->
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.ZipCode, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <!-- Submit Button -->
+                        <div class="form-group row">
+                            <center>
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn btn-success btn-lg btn-block" style="background-color: #28a745; border-radius: 10px; border: none;">Proceed to Payment</button>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Back to Basket Link -->
+                <div class="text-center mt-3">
+                    @Html.ActionLink("Back to Basket", "Index", null, new { @class = "btn btn-primary btn-sm", style = "border-radius: 10px;" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
